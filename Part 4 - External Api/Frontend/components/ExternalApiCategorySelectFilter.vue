@@ -16,46 +16,46 @@
 </template>
 
 <script>
-import api from "@/library/api.lib";
+  import api from "@/library/api.lib";
 
-export default {
-  name: "ExternalApiExplorerCategorySelectFilter",
-  props: {
-    selectedCategory: {
-      type: Number,
-      default: null
+  export default {
+    name: "ExternalApiExplorerCategorySelectFilter",
+    props: {
+      selectedCategory: {
+        type: Number,
+        default: null
+      },
+      disabled: {
+        type: Boolean,
+      },
     },
-    disabled: {
-      type: Boolean,
+    data: () => ({
+      loading: false,
+      categories: null
+    }),
+    mounted() {
+      this.fetchCategories();
     },
-  },
-  data: () => ({
-    loading: false,
-    categories: null
-  }),
-  mounted() {
-    this.fetchCategories();
-  },
-  methods: {
-    async fetchCategories() {
-      this.loading = true;
-      try {
-        const response = await api().get(
-          "/external-api-courses/categories"
-        );
-        this.categories = response.data;
-        this.loading = false;
-      } catch (e) {
-        throw new Error(e);
-      }
-    },
+    methods: {
+      async fetchCategories() {
+        this.loading = true;
+        try {
+          const response = await api().get(
+            "/external-api-courses/categories"
+          );
+          this.categories = response.data;
+          this.loading = false;
+        } catch (e) {
+          throw new Error(e);
+        }
+      },
 
-    async setCategory(category) {
-      this.$emit("change", category);
-    },
+      async setCategory(category) {
+        this.$emit("change", category);
+      },
 
-  }
-};
+    }
+  };
 </script>
 
 <style scoped>  </style>

@@ -35,12 +35,12 @@ export default {
   components: {
     PaginatedContentFilterToolBar,
     ExternalApiCategorySelectFilter,
-    ExternalApiTagSelectFilter
+    ExternalApiTagSelectFilter,
   },
   props: {
     section: {
       type: String,
-      required: true
+      required: true,
     },
     disabled: {
       type: Boolean,
@@ -50,10 +50,7 @@ export default {
     loading: true,
   }),
   computed: {
-    ...mapGetters("externalApi", [
-      "getSectionCategory",
-      "getSectionTag"
-    ]),
+    ...mapGetters("externalApi", ["getSectionCategory", "getSectionTag"]),
 
     selectedCategory() {
       return this.getSectionCategory(this.section);
@@ -73,32 +70,41 @@ export default {
         count++;
       }
       return count;
-    }
+    },
   },
   methods: {
     async resetFilters() {
-      const {section} = this;
+      const { section } = this;
       const update = [
-        this.$store.dispatch("externalApi/setSectionCategory", {section, category: null}),
-        this.$store.dispatch("externalApi/setSectionTag", {section, tag: null}),
+        this.$store.dispatch("externalApi/setSectionCategory", {
+          section,
+          category: null,
+        }),
+        this.$store.dispatch("externalApi/setSectionTag", {
+          section,
+          tag: null,
+        }),
       ];
       await Promise.all(update);
       this.$emit("change");
     },
 
     handleSelectCategory(category) {
-      const {section} = this;
-      this.$store.dispatch("externalApi/setSectionCategory", {section, category}),
-      this.$emit("change");
+      const { section } = this;
+      this.$store.dispatch("externalApi/setSectionCategory", {
+        section,
+        category,
+      }),
+        this.$emit("change");
     },
 
     handleSelectTag(tag) {
-      const {section} = this;
-      this.$store.dispatch("externalApi/setSectionTag", {section, tag}),
-      this.$emit("change");
+      const { section } = this;
+      this.$store.dispatch("externalApi/setSectionTag", { section, tag }),
+        this.$emit("change");
     },
-  }
+  },
 };
 </script>
 
-<style scoped>  </style>
+<style scoped></style>

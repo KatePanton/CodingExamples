@@ -3,6 +3,8 @@
     class="browse-external-api-courses-explorer"
     data-cy="browse-external-api-courses-explorer"
   >
+    <ExternalApiSectionToolbar />
+
     <ExternalApiCourseExplorerFilterBar
       :section="section"
       :disabled="loadingPages"
@@ -43,32 +45,32 @@
 import ExternalApiCourseContentCard from "@/modules/ExternalApiCourses/components/ExternalApiCourseContentCard.vue";
 import ExternalApiCourseExplorerFilterBar from "@/modules/ExternalApiCourses/components/ExternalApiCourseExplorerFilterBar.vue";
 import PaginatedContentCards from "@/components/PaginatedContentCards.vue";
-import {mapGetters} from "vuex";
+import ExternalApiSectionToolbar from "@/modules/ExternalApiCourses/components/ExternalApiSectionToolbar.vue";
+import { mapGetters } from "vuex";
+import translations from "@/i18n.js";
 
 export default {
   name: "BrowseExternalApiCourses",
+  i18n: translations,
   components: {
+    ExternalApiSectionToolbar,
     ExternalApiCourseExplorerFilterBar,
     PaginatedContentCards,
     ExternalApiCourseContentCard,
   },
   data: () => ({
     loadingPages: true,
-    section: "browse"
+    section: "browse",
   }),
   computed: {
-    ...mapGetters("externalApi", [
-      "getSectionPages",
-      "hasSectionGotMorePages",
-    ]),
+    ...mapGetters("externalApi", ["getSectionPages", "hasSectionGotMorePages"]),
 
     pages() {
       return this.getSectionPages(this.section);
     },
 
     morePages() {
-      if (!this.loadingPages)
-        return this.hasSectionGotMorePages(this.section);
+      if (!this.loadingPages) return this.hasSectionGotMorePages(this.section);
 
       return false;
     },
@@ -81,7 +83,7 @@ export default {
       }
 
       return docs;
-    }
+    },
   },
   mounted() {
     this.fetch();
@@ -99,8 +101,8 @@ export default {
       await this.$store.dispatch("externalApi/fetchCourses", this.section);
       this.loadingPages = false;
     },
-  }
+  },
 };
 </script>
 
-<style scoped>  </style>
+<style scoped></style>

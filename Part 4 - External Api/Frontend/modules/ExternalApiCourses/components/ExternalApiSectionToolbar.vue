@@ -3,8 +3,11 @@
     :sections="sections"
     :selected-section="`${section}`"
     :show-menu="false"
+    :show-sub-toolbar="false"
+    :disabled="false"
     class="external-api-courses-section-toolbar-component"
     data-cy="external-api-courses-section-toolbar-component"
+    @click="changeSection($event)"
   />
 </template>
 
@@ -27,6 +30,12 @@ export default {
           key: "externalApiExplorer",
           routeName: "externalApiExplorer",
         },
+        {
+          icon: "fa-user",
+          name: this.$t("external_api.user_courses"),
+          key: "externalApiUserCourses",
+          routeName: "externalApiUserCourses",
+        },
       ];
     },
 
@@ -34,8 +43,17 @@ export default {
       return this.$route.name;
     },
   },
-
+  methods: {
+    changeSection(section) {
+      this.sections.filter((tab) => {
+        if (tab.key === section && this.$route.name !== tab.routeName) {
+          return this.$router.push({ name: tab.routeName });
+        }
+        return null;
+      });
+    },
+  },
 };
 </script>
 
-<style scoped>  </style>
+<style scoped></style>

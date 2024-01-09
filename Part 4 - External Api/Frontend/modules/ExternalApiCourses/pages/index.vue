@@ -1,3 +1,8 @@
+<!--
+  Only used in phase 1.
+  Phase 2 uses the site wide explorer functionality coupled with the section toolbar to control which pages are shown.
+-->
+
 <template>
   <AuthenticatedLayout
     :page-title="$t('external_api.browse_external_api_courses')"
@@ -26,4 +31,4 @@ export default {
 };
 </script>
 
-<style scoped>  </style>
+<style scoped></style>

@@ -64,84 +64,85 @@
 </template>
 
 <script>
-/**
- * A paginated content cards component for content explorers
- *
- * Recommended usage:
- * 1. Include this component in the explorer where you wish to show paginated cards
- * 2. Handle the load-more-button-clicked and scroll-to-bottom events in the explorer
- * 3. Use the slot to show the Content Cards
- *
- * Events Emitted:
- * - load-more-button-clicked emitted when the load more button is clicked
- * - scroll-to-bottom emitted when the user scrolls to the bottom of the page
- */
-export default {
-  name: "PaginatedContentCards",
-  props: {
-    showLoadMoreButton: {
-      type: Boolean,
-      required: true,
-      default: false
+  /**
+   * A paginated content cards component for content explorers
+   *
+   * Recommended usage:
+   * 1. Include this component in the explorer where you wish to show paginated cards
+   * 2. Handle the load-more-button-clicked and scroll-to-bottom events in the explorer
+   * 3. Use the slot to show the Content Cards
+   *
+   * Events Emitted:
+   * - load-more-button-clicked emitted when the load more button is clicked
+   * - scroll-to-bottom emitted when the user scrolls to the bottom of the page
+   */
+
+  export default {
+    name: "PaginatedContentCards",
+    props: {
+      showLoadMoreButton: {
+        type: Boolean,
+        required: true,
+        default: false
+      },
+      showNoResults: {
+        type: Boolean,
+        required: true,
+        default: false
+      },
+      loading: {
+        type: Boolean,
+        required: true,
+        default: false
+      },
     },
-    showNoResults: {
-      type: Boolean,
-      required: true,
-      default: false
+    data() {
+      return {
+        bottom: false,
+      };
     },
-    loading: {
-      type: Boolean,
-      required: true,
-      default: false
-    },
-  },
-  data() {
-    return {
-      bottom: false,
-    };
-  },
-  watch: {
-    /**
-     * Watches when the user gets to the bottom of the page
-     * Emits an event when they do
-     * @param bottom - Whether the bottom of the page is visible
-     * @returns {Promise<void>}
-     */
-    async bottom(bottom) {
-      const { loading, showLoadMoreButton } = this;
-      if (bottom) {
-        if (!loading && showLoadMoreButton) {
-          this.$emit("scroll-to-bottom");
+    watch: {
+      /**
+       * Watches when the user gets to the bottom of the page
+       * Emits an event when they do
+       * @param bottom - Whether the bottom of the page is visible
+       * @returns {Promise<void>}
+       */
+      async bottom(bottom) {
+        const { loading, showLoadMoreButton } = this;
+        if (bottom) {
+          if (!loading && showLoadMoreButton) {
+            this.$emit("scroll-to-bottom");
+          }
         }
       }
-    }
-  },
-  created() {
-    /**
-     * Event listener to monitor the scroll position of the page
-     */
-    window.addEventListener("scroll", () => {
-      this.bottom = this.isBottomVisible();
-    });
-  },
-  beforeDestroy() {
-    // Cleanup the scroll listener
-    window.removeEventListener("scroll", () => {});
-  },
-  methods: {
-    /**
-     * Checks if the bottom of the page is visible
-     * @returns {boolean} - Whether the bottom of the page is visible
-     */
-    isBottomVisible() {
-      const scrollY = window.scrollY;
-      const visible = document.documentElement.clientHeight;
-      const pageHeight = document.documentElement.scrollHeight;
-      const bottomOfPage = visible + scrollY >= pageHeight;
-      return bottomOfPage || pageHeight < visible;
     },
-  }
-};
+    created() {
+      /**
+       * Event listener to monitor the scroll position of the page
+       */
+      window.addEventListener("scroll", () => {
+        this.bottom = this.isBottomVisible();
+      });
+    },
+    beforeDestroy() {
+      // Cleanup the scroll listener
+      window.removeEventListener("scroll", () => {});
+    },
+    methods: {
+      /**
+       * Checks if the bottom of the page is visible
+       * @returns {boolean} - Whether the bottom of the page is visible
+       */
+      isBottomVisible() {
+        const scrollY = window.scrollY;
+        const visible = document.documentElement.clientHeight;
+        const pageHeight = document.documentElement.scrollHeight;
+        const bottomOfPage = visible + scrollY >= pageHeight;
+        return bottomOfPage || pageHeight < visible;
+      },
+    }
+  };
 </script>
 
 <style scoped>  </style>
